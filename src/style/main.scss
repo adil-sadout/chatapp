@@ -1,0 +1,29 @@
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+
+//This is the code to add extra colors to use 
+$custom-theme-color:(
+    "purple":purple,
+    "greenblue":rgb(24, 124, 124),
+    "main":#ABD5FF,
+    "gray":#EAEAEA
+);
+
+$theme-colors: map-merge($custom-theme-color, $theme-colors );
+
+$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+$utilities-colors: map-merge(
+  $theme-colors-rgb,
+  (
+    "black": to-rgb($black),
+    "white": to-rgb($white),
+    "body":  to-rgb($body-color)
+  )
+);
+
+$utilities-text-colors: map-loop($utilities-colors, rgba-css-var, "$key", "text");
+$utilities-bg-colors: map-loop($utilities-colors, rgba-css-var, "$key", "bg");
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
