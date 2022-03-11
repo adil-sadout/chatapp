@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AppContProv} from "./context";
+import {AppContProv} from "./helpers/context";
 import './style/css/main.css';
 import "./index.css"
 import App from './App';
