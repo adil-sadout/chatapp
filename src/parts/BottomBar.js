@@ -8,6 +8,9 @@ function BottomBar() {
   const [message, setMessage] = useState("")
   const [disabled, setDisabled] = useState(true)
 
+  const Filter = require('bad-words'),
+  filter = new Filter();
+
   function disabledOrNot(){
     if(disabled===false && (message.length>0)){
       return(false)
@@ -22,7 +25,8 @@ function BottomBar() {
     }
   }, [user])
 
-  
+    
+    
 
 
   useEffect(()=>{
@@ -36,7 +40,7 @@ function BottomBar() {
         <div  className="input-group-append">
             <button  disabled={disabledOrNot()} onClick={(e)=>{
               e.preventDefault()
-              sendMessage(message, user.uid, user.email, `${uuidv4()}`)
+              sendMessage(filter.clean(message), user.uid, user.email, `${uuidv4()}`)
               setMessage("")
               
               setTimeout(() => {
