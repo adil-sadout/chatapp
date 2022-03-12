@@ -1,37 +1,51 @@
-import React from 'react'
+import { collection, query, orderBy, limit, onSnapshot  } from "firebase/firestore";
+import { db } from "../helpers/firebaseConfig";
+import {useContext, useEffect} from "react"
+import {appContext} from "../helpers/context"
+import ChatMessage from "./ChatMessage";
 
 function Main() {
+
+  const {user, messages, setMessages} = useContext(appContext)
+  const messagesRef = collection(db, "messages");
+  const q = query(messagesRef, orderBy("time"));
+  
+  
+
+  useEffect(()=>{
+    onSnapshot(q, (snapshot)=>{
+      setMessages(snapshot.docs.map((doc)=> ({...doc.data(), id:doc.id})))
+      
+    })
+  },[user])
+
+
   return (
     <>
-        <div className="d-flex align-items-center mb-4">
-            <div className="text-center">
-              <p>Jeff</p>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-emoji-laughing" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M12.331 9.5a1 1 0 0 1 0 1A4.998 4.998 0 0 1 8 13a4.998 4.998 0 0 1-4.33-2.5A1 1 0 0 1 4.535 9h6.93a1 1 0 0 1 .866.5zM7 6.5c0 .828-.448 0-1 0s-1 .828-1 0S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 0-1 0s-1 .828-1 0S9.448 5 10 5s1 .672 1 1.5z"/>
-              </svg>
-            </div>
-            
-            <div className=" mx-3 bg-main px-3 py-1 rounded-3 ">
-              <p className="my-0 text-break">Hello there dza daz daz fefqza da efza dzaddzadazdzadazdzadazdzadazaz</p>
-            </div>
-            
-          </div>
+      {
+        user===null?
+        <p className="text-center display-6">Please Connect First</p> :
+        <>
+          {
+            messages.length > 0?
+            <>
+            {
+              messages.map(message =>{
+                return <ChatMessage user={user} message={message} key={message.id} />
+              })
+            }
+            </>
+            :
+            <p className="display-6 text-center">Send the first message</p>
+          }
+          
 
-          <div className="d-flex flex-row-reverse align-items-center mb-4">
-            <div className="text-center">
-              <p>Jeff</p>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-emoji-laughing" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M12.331 9.5a1 1 0 0 1 0 1A4.998 4.998 0 0 1 8 13a4.998 4.998 0 0 1-4.33-2.5A1 1 0 0 1 4.535 9h6.93a1 1 0 0 1 .866.5zM7 6.5c0 .828-.448 0-1 0s-1 .828-1 0S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 0-1 0s-1 .828-1 0S9.448 5 10 5s1 .672 1 1.5z"/>
-              </svg>
-            </div>
-            
-            <div className=" mx-3 bg-main px-3 py-1  rounded-3 ">
-              <p className="my-0 text-break">Hello </p>
-            </div>
-            
-        </div>
+          
+
+
+        </>
+      }
+        
     </>
   )
 }

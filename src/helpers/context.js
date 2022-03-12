@@ -1,7 +1,11 @@
 import { createContext, useState } from "react";
 import { AuthKey } from "./firebaseConfig";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
-import { v4 as uuidv4 } from 'uuid';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { db } from "./firebaseConfig";
+import { doc, setDoc } from "firebase/firestore"; 
+
+// Add a new document in collection "cities"
+
 
 const appContext = createContext()
 
@@ -54,6 +58,24 @@ function AppContProv(props){
     
     }
 
+    const sendMessage = async (message, userId, userEmail, newId)=> {
+        const time = new Date();
+
+        try{
+            await setDoc(doc(db, "messages", `${newId}`), {
+                userId: userId,
+                userEmail: userEmail,
+                content: message,
+                time: `${time.getTime()}`
+              });
+        }catch(err){
+            console.log(err)
+        }
+        
+        
+    
+    }
+
     const values={
         user,
         setUser,
@@ -71,7 +93,8 @@ function AppContProv(props){
         errorMessageSignup,
         setErrorMessageSignup,
         modalShow,
-        setModalShow
+        setModalShow,
+        sendMessage
     }
 
     return(

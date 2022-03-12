@@ -5,9 +5,10 @@
 //This is the code to add extra colors to use 
 $custom-theme-color:(
     "purple":purple,
-    "greenblue":rgb(24, 124, 124),
+    "greenBlue":rgb(24, 124, 124),
     "main":#ABD5FF,
-    "gray":#EAEAEA
+    "gray":#EAEAEA,
+    "darkGray": #ccc1c1
 );
 
 $theme-colors: map-merge($custom-theme-color, $theme-colors );

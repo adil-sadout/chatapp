@@ -17,6 +17,8 @@ function App() {
 
   
 
+  
+
 
   return (
     <div className="vh-100">
@@ -27,7 +29,7 @@ function App() {
           <TopBar/>
         </div>
 
-        <div className="h-80 w-100 bg-gray p-4" id="main">
+        <div className="h-80 w-100 bg-gray p-4 overflow-auto" id="main">
           <Main />
         </div>
 
