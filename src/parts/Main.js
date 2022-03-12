@@ -1,4 +1,4 @@
-import { collection, query, orderBy, limit, onSnapshot  } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot  } from "firebase/firestore";
 import { db } from "../helpers/firebaseConfig";
 import {useContext, useEffect} from "react"
 import {appContext} from "../helpers/context"
