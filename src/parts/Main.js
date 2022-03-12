@@ -1,6 +1,6 @@
 import { collection, query, orderBy, onSnapshot  } from "firebase/firestore";
 import { db } from "../helpers/firebaseConfig";
-import {useContext, useEffect} from "react"
+import {useContext, useEffect, useRef} from "react"
 import {appContext} from "../helpers/context"
 import ChatMessage from "./ChatMessage";
 
@@ -10,6 +10,7 @@ function Main() {
   const messagesRef = collection(db, "messages");
   const q = query(messagesRef, orderBy("time"));
   
+  const scrollDownRef = useRef()
   
 
   useEffect(()=>{
@@ -18,6 +19,12 @@ function Main() {
       
     })
   },[user])
+
+
+  useEffect(()=>{
+    scrollDownRef.current?.scrollIntoView();
+  },[messages])
+  
 
 
   return (
@@ -45,6 +52,8 @@ function Main() {
 
         </>
       }
+      <div ref={scrollDownRef} ></div>
+      
         
     </>
   )
